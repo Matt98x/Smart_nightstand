@@ -3,7 +3,10 @@ import pyglet
 from pyglet.window import mouse
 from pyglet.window import key
 from pyglet import clock
+from config import *
+
 import os
+import math
 
 def nada():
 	pass
@@ -21,11 +24,6 @@ def load_gif(text):
 		background_animation.append(pyglet.image.load(text+p+'.png'))
 	gif=pyglet.image.Animation.from_image_sequence(background_animation,0.1,loop=True)
 	return gif
-	
-# Upper_curtain show
-def upper_curtain_show():
-	pass
 
-# Upper_curtain pressed function
-def upper_curtain_pressed():
-	pass
+
+		
