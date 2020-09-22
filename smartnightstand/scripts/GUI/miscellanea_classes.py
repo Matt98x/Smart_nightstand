@@ -59,8 +59,9 @@ class Button(Sprite):
 				 function):
 		Sprite.__init__(self,image,x,y,width,height,window,batch)
 		self.image=image
-		print(width,height)
 		self.text=Text(text,'Arial',12,x+width/2,y+height/2,color=(255,255,255,255))
+		self.anchor_x='center'
+		self.anchor_y='center'
 		self.set_button_text()
 		window.push_handlers(self.on_mouse_press)
 		self.function=function
@@ -92,7 +93,7 @@ class Button(Sprite):
 			
 # Text class (on screen text)
 
-class Text():
+class Text(pyglet.text.Label):
 	def __init__(self,
 				 text,
 				 font,
@@ -100,35 +101,34 @@ class Text():
 				 x,y,
 				 color):
 			
-			self.label=pyglet.text.Label(text,
+			pyglet.text.Label.__init__(self,text,
 						font_name=font,
 						font_size=font_size,
 						x=x,y=y,
 						color=color
 						)
-			self.label.margin_botto=0
-			self.label.color=color
+			self.font=font
+			self.font_size=font_size
+			self.color=color
+			print(self.width)
 			self.x=x
 			self.y=y
-			self.label.begin_update()
-			self.label.x=self.x
-			self.label.y=self.y
-			self.label.end_update()
+			self.begin_update()
+			self.x=self.x
+			self.y=self.y
+			self.end_update()
 
-	def draw(self):
-		self.label.draw()
-		
-	def update_text(self,text):
-		self.label.text=text
-		
+
+	
 	def update_position(self,anchor_x,anchor_y,x,y):
-		self.label.begin_update()
-		self.label.anchor_x=anchor_x
-		self.label.anchor_y=anchor_y
-		self.label.x=x
-		self.label.y=y
-		self.label.end_update()
+		self.begin_update()
+		self.anchor_x=anchor_x
+		self.anchor_y=anchor_y
+		self.x=x
+		self.y=y
+		self.end_update()
 		
+
 		
 # Create a background
 
@@ -148,26 +148,49 @@ class Background():
 	def update(self):
 		self.animation.update()
 		
-		
-# Slide class
 
-class Slide():
+class Paragraph(pyglet.text.Label):
 	def __init__(self,
-				 title,
-				 index,
-				 background,
-				 show_func,
-				 window,
-				 batch):
-			self.back=Background(background,window,batch)
-			self.showf=show_func
-	def show(self):
-		self.back.draw_background()
-		self.showf()
+				 text,
+				 font,
+				 font_size,
+				 x,y,anchor_x,anchor_y,
+				 color):
+			
+			pyglet.text.Label.__init__(self,text,
+						font_name=font,
+						font_size=font_size,
+						x=x,y=y,width=10,
+						color=color
+						)
+			self.anchor_x=anchor_x
+			self.anchor_y=anchor_y
+			self.font=font
+			self.font_size=font_size
+			self.margin_bottom=0
+			self.width=10
+			self.multiline=True
+			self.color=color
+			print(self.width)
+			self.x=x
+			self.y=y
+			self.begin_update()
+			self.x=self.x
+			self.y=self.y
+			self.end_update()
+			
+			
+	def update_position(self,x,y):
+		self.begin_update()
+		self.x=x
+		self.y=y
+		self.end_update()		
 
 # Graphic object
 
 class Graphic_object():
+	"""
+	"""
 	def __init__(self,
 				 window,
 				 batch,
@@ -177,6 +200,7 @@ class Graphic_object():
 			self.sprites=[]
 			self.backgrounds=[]
 			self.update_texts=update_texts
+	
 	def show(self):
 		self.update_texts()
 		for i in self.backgrounds:
@@ -188,6 +212,34 @@ class Graphic_object():
 				i.show()
 		for i in self.texts:
 				i.draw()
-		
-
+	
+	def add_button(self,image,
+				 text,
+				 x,
+				 y,
+				 width,
+				 height,
+				 batch,
+				 window,
+				 function):
+		button=Button(image,text,x,y,width,height,batch,window,function)
+		self.buttons.append(button)
+	
+	def add_paragraph(self,text,
+				 font,
+				 font_size,
+				 x,y,
+				 color):
+				 
+				 pass
+	
+	def add_sprites(self):
+		sprite=Sprite(image,x,y,width,height,window,batch)
+		self.sprites.append(sprite)
+		pass
+	
+	def add_background(self):
+		background=Background(image,window,batch)
+		self.backgrounds.append(backgrounds)
+		pass
 

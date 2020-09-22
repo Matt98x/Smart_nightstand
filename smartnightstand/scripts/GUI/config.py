@@ -23,8 +23,15 @@ t=1
 index=1
 slides=[]
 today=datetime.datetime.today()
-date_dmy=today.strftime("%A %d %B %Y")
+date_dmy=today.strftime("%A \ %d \ %B \ %Y")
+hour_hms=today.strftime("%H:%M:%S")
 print(date_dmy)
+
+def update_date_hour():
+	global date_dmy,hour_hms
+	today=datetime.datetime.today()
+	date_dmy=today.strftime("%A %d %B %Y")
+	hour_hms=today.strftime("%H:%M:%S")
 
 # Slides constructors
 general=Graphic_object(window,batch,nada)
